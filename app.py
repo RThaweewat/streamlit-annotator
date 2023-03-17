@@ -24,6 +24,7 @@ def display_row():
 
     row_to_display = df.loc[st.session_state.row_num].to_frame().T
     edited_row = st.experimental_data_editor(row_to_display)
+    st.session_state.edited_row = edited_row
     return edited_row
 
 
@@ -40,8 +41,7 @@ df['Row Number'] = range(len(df))
 edited_row = display_row()
 
 def update_row_state():
-    nonlocal edited_row
-    edited_row = display_row()
+    display_row()
 
 next_match = st.button("Next (Matched)")
 next_not_match = st.button("Next (Not Matched)")
@@ -74,4 +74,5 @@ unfilled_rows = df[df["User Decision"] == ""].count()["User Decision"]
 
 st.write(f"Filled rows: {filled_rows}")
 st.write(f"Unfilled rows: {unfilled_rows}")
+
 
