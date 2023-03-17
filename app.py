@@ -21,7 +21,7 @@ def get_random_row(df):
 
 # Main app
 def main():
-    st.title("CSV Viewer and Editor")
+    st.title("CSV Annotator V1.0")
 
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -44,7 +44,7 @@ def main():
 
             # Display row
             if st.session_state.row_index is not None:
-                row = df.iloc[st.session_state.row_index]
+                row = df.loc[st.session_state.row_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 st.write(row)
 
                 # Button logic
@@ -74,5 +74,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
     
