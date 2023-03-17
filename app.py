@@ -11,15 +11,15 @@ def convert_df(dataframe: pd.DataFrame):
     return dataframe.to_csv().encode('utf-8')
 
 
-def display_row(session_state):
-    if session_state.row_num < 0:
-        session_state.row_num = 0
-    elif session_state.row_num >= len(df):
-        session_state.row_num = len(df) - 1
+def display_row():
+    row_num = st.session_state.row_num
+    if row_num < 0:
+        row_num = 0
+    elif row_num >= len(df):
+        row_num = len(df) - 1
 
-    row_to_display = df.iloc[session_state.row_num].to_frame().T
+    row_to_display = df.iloc[row_num].to_frame().T
     edited_row = st.experimental_data_editor(row_to_display)
-
     return edited_row
 
 
@@ -33,27 +33,28 @@ else:
 df['User Decision'] = ""
 df['Row Number'] = range(len(df))
 
-session_state = SessionState.get(row_num=0)
+if 'row_num' not in st.session_state:
+    st.session_state.row_num = 0
 
-edited_row = display_row(session_state)
+edited_row = display_row()
 
 next_match = st.button("Next (Matched)")
 next_not_match = st.button("Next (Not Matched)")
 back = st.button("Back")
 
 if next_match:
-    df.loc[session_state.row_num, "User Decision"] = "Match"
-    session_state.row_num += 1
-    display_row(session_state)
+    df.loc[st.session_state.row_num, "User Decision"] = "Match"
+    st.session_state.row_num += 1
+    display_row()
 
 elif next_not_match:
-    df.loc[session_state.row_num, "User Decision"] = "Unmatch"
-    session_state.row_num += 1
-    display_row(session_state)
+    df.loc[st.session_state.row_num, "User Decision"] = "Unmatch"
+    st.session_state.row_num += 1
+    display_row()
 
 elif back:
-    session_state.row_num -= 1
-    display_row(session_state)
+    st.session_state.row_num -= 1
+    display_row()
 
 final_df = convert_df(df)
 if final_df is not None:
@@ -64,4 +65,5 @@ if final_df is not None:
         file_name='edited_data.csv',
         mime='text/csv',
     )
+
     
