@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import random
 
 # Use the full page instead of a narrow central column
 st.set_page_config(layout="wide")
@@ -12,13 +13,16 @@ def convert_df(dataframe: pd.DataFrame):
 
 
 def display_row():
-    row_num = st.session_state.row_num
-    if row_num < 0:
-        row_num = 0
-    elif row_num >= len(df):
-        row_num = len(df) - 1
+    unfilled_rows = df[df["User Decision"] == ""].index.tolist()
 
-    row_to_display = df.iloc[row_num].to_frame().T
+    if not unfilled_rows:
+        st.write("All done!")
+        return None
+
+    if 'row_num' not in st.session_state or st.session_state.row_num not in unfilled_rows:
+        st.session_state.row_num = random.choice(unfilled_rows)
+
+    row_to_display = df.loc[st.session_state.row_num].to_frame().T
     edited_row = st.experimental_data_editor(row_to_display)
     return edited_row
 
@@ -33,9 +37,6 @@ else:
 df['User Decision'] = ""
 df['Row Number'] = range(len(df))
 
-if 'row_num' not in st.session_state:
-    st.session_state.row_num = 0
-
 edited_row = display_row()
 
 next_match = st.button("Next (Matched)")
@@ -44,12 +45,10 @@ back = st.button("Back")
 
 if next_match:
     df.loc[st.session_state.row_num, "User Decision"] = "Match"
-    st.session_state.row_num += 1
     display_row()
 
 elif next_not_match:
     df.loc[st.session_state.row_num, "User Decision"] = "Unmatch"
-    st.session_state.row_num += 1
     display_row()
 
 elif back:
@@ -66,4 +65,8 @@ if final_df is not None:
         mime='text/csv',
     )
 
-    
+filled_rows = df[df["User Decision"] != ""].count()["User Decision"]
+unfilled_rows = df[df["User Decision"] == ""].count()["User Decision"]
+
+st.write(f"Filled rows: {filled_rows}")
+st.write(f"Unfilled rows: {unfilled_rows}")
