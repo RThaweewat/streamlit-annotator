@@ -18,8 +18,12 @@ def main():
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
     if uploaded_file is not None:
-        df = load_csv(uploaded_file)
-        if df is not None:
+        if 'data' not in st.session_state:
+            st.session_state.data = load_csv(uploaded_file)
+
+        if st.session_state.data is not None:
+            df = st.session_state.data
+
             # Add 'user decision' column if not present
             if 'user decision' not in df.columns:
                 df['user decision'] = ""
@@ -54,9 +58,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
 
 
