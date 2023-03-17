@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import SessionState
 
 # Use the full page instead of a narrow central column
 st.set_page_config(layout="wide")
