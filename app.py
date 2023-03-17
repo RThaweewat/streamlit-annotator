@@ -25,7 +25,7 @@ def count_unassigned_rows(df):
 
 # Main app
 def main():
-    st.title("CSV Annotator V1")
+    st.title("CSV Viewer and Editor")
 
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -81,5 +81,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
     
