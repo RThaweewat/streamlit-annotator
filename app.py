@@ -39,21 +39,25 @@ df['Row Number'] = range(len(df))
 
 edited_row = display_row()
 
+def update_row_state():
+    nonlocal edited_row
+    edited_row = display_row()
+
 next_match = st.button("Next (Matched)")
 next_not_match = st.button("Next (Not Matched)")
 back = st.button("Back")
 
 if next_match:
     df.loc[st.session_state.row_num, "User Decision"] = "Match"
-    edited_row = display_row()
+    update_row_state()
 
 elif next_not_match:
     df.loc[st.session_state.row_num, "User Decision"] = "Unmatch"
-    edited_row = display_row()
+    update_row_state()
 
 elif back:
     st.session_state.row_num -= 1
-    edited_row = display_row()
+    update_row_state()
 
 final_df = convert_df(df)
 if final_df is not None:
@@ -70,3 +74,4 @@ unfilled_rows = df[df["User Decision"] == ""].count()["User Decision"]
 
 st.write(f"Filled rows: {filled_rows}")
 st.write(f"Unfilled rows: {unfilled_rows}")
+
