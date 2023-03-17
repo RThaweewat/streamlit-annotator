@@ -34,6 +34,8 @@ if uploaded_file is not None:
 else:
     df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
 
+df['User Decision'] = ""
+df['Row Number'] = range(len(df))
 
 edited_row = display_row()
 
@@ -43,15 +45,15 @@ back = st.button("Back")
 
 if next_match:
     df.loc[st.session_state.row_num, "User Decision"] = "Match"
-    display_row()
+    edited_row = display_row()
 
 elif next_not_match:
     df.loc[st.session_state.row_num, "User Decision"] = "Unmatch"
-    display_row()
+    edited_row = display_row()
 
 elif back:
     st.session_state.row_num -= 1
-    display_row()
+    edited_row = display_row()
 
 final_df = convert_df(df)
 if final_df is not None:
