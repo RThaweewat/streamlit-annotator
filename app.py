@@ -55,7 +55,7 @@ def main():
                 edited_row = st.experimental_data_editor(row, num_rows="fixed")
 
                 # Update the user decision in the dataframe
-                df.at[st.session_state.row_index, 'user decision'] = edited_row['user decision'].values[0]
+                df.at[st.session_state.row_index, 'user decision'] = edited_row.loc[0, 'user decision']
 
                 # Button logic
                 col1, col2 = st.columns(2)
@@ -76,5 +76,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
     
