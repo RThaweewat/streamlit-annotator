@@ -43,31 +43,34 @@ def main():
                 st.session_state.history = []
 
             # Display row
-            row = df.iloc[st.session_state.row_index]
-            st.write(row)
+            if st.session_state.row_index is not None:
+                row = df.iloc[st.session_state.row_index]
+                st.write(row)
 
-            # Button logic
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                if st.button("Back"):
-                    if st.session_state.history:
-                        st.session_state.row_index = st.session_state.history.pop()
-            with col2:
-                if st.button("Next Match"):
-                    df.at[st.session_state.row_index, 'user decision'] = "match"
-                    st.session_state.history.append(st.session_state.row_index)
-                    st.session_state.row_index = get_random_row(df)
-            with col3:
-                if st.button("Next Non-Match"):
-                    df.at[st.session_state.row_index, 'user decision'] = "non match"
-                    st.session_state.history.append(st.session_state.row_index)
-                    st.session_state.row_index = get_random_row(df)
+                # Button logic
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    if st.button("Back"):
+                        if st.session_state.history:
+                            st.session_state.row_index = st.session_state.history.pop()
+                with col2:
+                    if st.button("Next Match"):
+                        if st.session_state.row_index is not None:
+                            df.at[st.session_state.row_index, 'user decision'] = "match"
+                            st.session_state.history.append(st.session_state.row_index)
+                            st.session_state.row_index = get_random_row(df)
+                with col3:
+                    if st.button("Next Non-Match"):
+                        if st.session_state.row_index is not None:
+                            df.at[st.session_state.row_index, 'user decision'] = "non match"
+                            st.session_state.history.append(st.session_state.row_index)
+                            st.session_state.row_index = get_random_row(df)
 
-            # Download updated CSV
-            csv = df.to_csv(index=False)
-            b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-            href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
-            st.markdown(href, unsafe_allow_html=True)
+                # Download updated CSV
+                csv = df.to_csv(index=False)
+                b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+                href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
+                st.markdown(href, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
