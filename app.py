@@ -33,9 +33,6 @@ if uploaded_file is not None:
 else:
     df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
 
-df['User Decision'] = ""
-df['Row Number'] = range(len(df))
-
 row_num, edited_row = display_row()
 
 next_match = st.button("Next (Matched)")
