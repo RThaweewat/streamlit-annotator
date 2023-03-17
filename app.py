@@ -3,6 +3,7 @@ import pandas as pd
 import base64
 import random
 
+st. set_page_config(layout="wide")
 # Load CSV file
 def load_csv(uploaded_file):
     try:
