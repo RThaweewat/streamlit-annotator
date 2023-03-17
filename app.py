@@ -19,6 +19,10 @@ def get_random_row(df):
         return None
     return random.choice(available_rows)
 
+# Count the number of unassigned rows
+def count_unassigned_rows(df):
+    return len(df[df['user decision'] == ""])
+
 # Main app
 def main():
     st.title("CSV Viewer and Editor")
@@ -42,32 +46,27 @@ def main():
             if 'history' not in st.session_state:
                 st.session_state.history = []
 
-            # Display editable DataFrame
+            # Display the number of unassigned rows
+            st.write(f"Non-labeled number of rows: {count_unassigned_rows(df)}")
+
+            # Display row
             if st.session_state.row_index is not None:
                 row = df.loc[st.session_state.row_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']]
-                row_df = pd.DataFrame(row).T
-                row_df_edit = st.dataframe(row_df, height=100)
+                edited_row = st.experimental_data_editor(row, num_rows="fixed")
+
+                # Update the user decision in the dataframe
+                df.at[st.session_state.row_index, 'user decision'] = edited_row['user decision'].values[0]
 
                 # Button logic
-                col1, col2, col3 = st.columns(3)
+                col1, col2 = st.columns(2)
                 with col1:
-                    if st.button("Unknown"):
-                        if st.session_state.row_index is not None:
-                            df.at[st.session_state.row_index, 'user decision'] = "unknown"
-                            st.session_state.history.append(st.session_state.row_index)
-                            st.session_state.row_index = get_random_row(df)
+                    if st.button("Back"):
+                        if st.session_state.history:
+                            st.session_state.row_index = st.session_state.history.pop()
                 with col2:
-                    if st.button("Next Match"):
-                        if st.session_state.row_index is not None:
-                            df.at[st.session_state.row_index, 'user decision'] = "match"
-                            st.session_state.history.append(st.session_state.row_index)
-                            st.session_state.row_index = get_random_row(df)
-                with col3:
-                    if st.button("Next Non-Match"):
-                        if st.session_state.row_index is not None:
-                            df.at[st.session_state.row_index, 'user decision'] = "non match"
-                            st.session_state.history.append(st.session_state.row_index)
-                            st.session_state.row_index = get_random_row(df)
+                    if st.button("Next"):
+                        st.session_state.history.append(st.session_state.row_index)
+                        st.session_state.row_index = get_random_row(df)
 
                 # Download updated CSV
                 csv = df.to_csv(index=False)
@@ -77,4 +76,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
     
