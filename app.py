@@ -20,7 +20,22 @@ if uploaded_file is not None:
 else:
     df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
 
+
+
 edited_df = st.experimental_data_editor(df.head(1))
+
+
+if st.button('Next'):
+    st.write('Why hello there')
+else:
+    st.write('Goodbye')
+
+if st.button('Back'):
+    st.write('Why hello there')
+else:
+    st.write('Goodbye')
+
+
 final_df = convert_df(edited_df)
 if final_df is not None:
     st.markdown("You can download edited file from download button below (CSV)")
