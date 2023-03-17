@@ -13,10 +13,6 @@ def load_csv(uploaded_file):
         return None
 
 
-edited_df = st.experimental_data_editor(df, num_rows="dynamic")
-
-favorite_command = edited_df.loc[edited_df["rating"].idxmax()]["command"]
-st.markdown(f"Your favorite command is **{favorite_command}** 🎈")
 # Get a random row without a user decision
 def get_random_row(df):
     available_rows = df[df['user decision'] == ""].index.tolist()
