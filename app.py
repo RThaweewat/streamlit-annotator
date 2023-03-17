@@ -25,7 +25,7 @@ def count_unassigned_rows(df):
 
 # Main app
 def main():
-    st.title("CSV Viewer and Editor")
+    st.title("CSV Annotator V1.0")
 
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -51,8 +51,8 @@ def main():
 
             # Display row
             if st.session_state.row_index is not None:
-                row = df.loc[st.session_state.row_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.write(row)
+                row = df.loc[[st.session_state.row_index], ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
+                st.experimental_data_editor(row, disabled=True, num_rows="fixed")
 
                 # Button logic
                 col1, col2, col3 = st.columns(3)
@@ -81,4 +81,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
     
