@@ -12,13 +12,7 @@ def load_csv(uploaded_file):
         st.error(f"Error loading CSV file: {e}")
         return None
 
-df = pd.DataFrame(
-    [
-        {"command": "st.selectbox", "rating": 4, "is_widget": True},
-        {"command": "st.balloons", "rating": 5, "is_widget": False},
-        {"command": "st.time_input", "rating": 3, "is_widget": True},
-    ]
-)
+
 edited_df = st.experimental_data_editor(df, num_rows="dynamic")
 
 favorite_command = edited_df.loc[edited_df["rating"].idxmax()]["command"]
@@ -63,7 +57,7 @@ def main():
             # Display row
             if st.session_state.row_index is not None:
                 row = df.loc[st.session_state.row_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.write(row)
+                st.experimental_data_editor(row, num_rows="dynamic")
 
                 # Button logic
                 col1, col2, col3 = st.columns(3)
