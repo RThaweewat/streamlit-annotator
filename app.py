@@ -1,56 +1,60 @@
 import streamlit as st
 import pandas as pd
+import base64
 
-# Define a function to load the CSV file
-def load_csv(file):
-    df = pd.read_csv(file)
-    return df
+# Load CSV file
+def load_csv(uploaded_file):
+    try:
+        df = pd.read_csv(uploaded_file)
+        return df
+    except Exception as e:
+        st.error(f"Error loading CSV file: {e}")
+        return None
 
-# Define a function to display the current row
-def display_row(df, row_idx):
-    row = df.iloc[row_idx]
-    for col in row.index:
-        st.write(f"{col}: {row[col]}")
-
-# Define the Streamlit app
+# Main app
 def main():
-    st.title("CSV Viewer")
+    st.title("CSV Viewer and Editor")
 
-    # Upload the CSV file
-    file = st.file_uploader("Upload CSV file", type=["csv"])
-    if file:
-        # Load the CSV file
-        df = load_csv(file)
+    # Upload CSV
+    uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+    if uploaded_file is not None:
+        df = load_csv(uploaded_file)
+        if df is not None:
+            # Add 'user decision' column if not present
+            if 'user decision' not in df.columns:
+                df['user decision'] = ""
 
-        # Initialize the row index
-        row_idx = 0
+            # Session state for row index
+            if 'row_index' not in st.session_state:
+                st.session_state.row_index = 0
 
-        # Display the current row
-        display_row(df, row_idx)
+            # Display row
+            row = df.iloc[st.session_state.row_index]
+            st.write(row)
 
-        # Define the buttons
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            if st.button("Match"):
-                df.loc[row_idx, "user decision"] = "match"
-                row_idx += 1
-                display_row(df, row_idx)
-        with col2:
-            if st.button("Non Match"):
-                df.loc[row_idx, "user decision"] = "non match"
-                row_idx += 1
-                display_row(df, row_idx)
-        with col3:
-            if st.button("Back"):
-                if row_idx > 0:
-                    row_idx -= 1
-                    display_row(df, row_idx)
-                else:
-                    st.warning("You are at the beginning of the file.")
+            # Button logic
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                if st.button("Back"):
+                    st.session_state.row_index = max(0, st.session_state.row_index - 1)
+            with col2:
+                if st.button("Next Match"):
+                    df.at[st.session_state.row_index, 'user decision'] = "match"
+                    st.session_state.row_index = min(len(df) - 1, st.session_state.row_index + 1)
+            with col3:
+                if st.button("Next Non-Match"):
+                    df.at[st.session_state.row_index, 'user decision'] = "non match"
+                    st.session_state.row_index = min(len(df) - 1, st.session_state.row_index + 1)
 
-# Run the Streamlit app
+            # Download updated CSV
+            csv = df.to_csv(index=False)
+            b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+            href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
+            st.markdown(href, unsafe_allow_html=True)
+
 if __name__ == "__main__":
     main()
+
 
 
 
