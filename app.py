@@ -19,9 +19,13 @@ def get_random_row(df):
         return None
     return random.choice(available_rows)
 
+# Count the number of unassigned rows
+def count_unassigned_rows(df):
+    return len(df[df['user decision'] == ""])
+
 # Main app
 def main():
-    st.title("CSV Annotator V1.0")
+    st.title("CSV Viewer and Editor")
 
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -41,6 +45,9 @@ def main():
                 st.session_state.row_index = get_random_row(df)
             if 'history' not in st.session_state:
                 st.session_state.history = []
+
+            # Display the number of unassigned rows
+            st.write(f"Non-labeled number of rows: {count_unassigned_rows(df)}")
 
             # Display row
             if st.session_state.row_index is not None:
