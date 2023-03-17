@@ -9,7 +9,8 @@ def load_csv(file):
 # Define a function to display the current row
 def display_row(df, row_idx):
     row = df.iloc[row_idx]
-    st.write(row)
+    for col in row.index:
+        st.write(f"{col}: {row[col]}")
 
 # Define the Streamlit app
 def main():
@@ -50,6 +51,7 @@ def main():
 # Run the Streamlit app
 if __name__ == "__main__":
     main()
+
 
 
 
