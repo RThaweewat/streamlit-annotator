@@ -19,13 +19,11 @@ def display_row():
         st.write("All done!")
         return None
 
-    if 'row_num' not in st.session_state or st.session_state.row_num not in unfilled_rows:
-        st.session_state.row_num = random.choice(unfilled_rows)
-
-    row_to_display = df.loc[st.session_state.row_num].to_frame().T
+    row_num = random.choice(unfilled_rows)
+    row_to_display = df.loc[row_num].to_frame().T
     edited_row = st.experimental_data_editor(row_to_display)
-    st.session_state.edited_row = edited_row
-    return edited_row
+
+    return row_num, edited_row
 
 
 uploaded_file = st.file_uploader("Choose your CSV file")
@@ -38,26 +36,22 @@ else:
 df['User Decision'] = ""
 df['Row Number'] = range(len(df))
 
-edited_row = display_row()
-
-def update_row_state():
-    display_row()
+row_num, edited_row = display_row()
 
 next_match = st.button("Next (Matched)")
 next_not_match = st.button("Next (Not Matched)")
 back = st.button("Back")
 
 if next_match:
-    df.loc[st.session_state.row_num, "User Decision"] = "Match"
-    update_row_state()
+    df.loc[row_num, "User Decision"] = "Match"
+    row_num, edited_row = display_row()
 
 elif next_not_match:
-    df.loc[st.session_state.row_num, "User Decision"] = "Unmatch"
-    update_row_state()
+    df.loc[row_num, "User Decision"] = "Unmatch"
+    row_num, edited_row = display_row()
 
 elif back:
-    st.session_state.row_num -= 1
-    update_row_state()
+    row_num, edited_row = display_row()
 
 final_df = convert_df(df)
 if final_df is not None:
@@ -74,5 +68,6 @@ unfilled_rows = df[df["User Decision"] == ""].count()["User Decision"]
 
 st.write(f"Filled rows: {filled_rows}")
 st.write(f"Unfilled rows: {unfilled_rows}")
+
 
 
