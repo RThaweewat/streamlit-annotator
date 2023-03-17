@@ -43,12 +43,12 @@ def main():
                     st.session_state.row_index = max(0, st.session_state.row_index - 1)
             with col2:
                 if st.button("Next Match"):
-                    df.at[st.session_state.row_index, 'user decision'] = "match"
                     st.session_state.row_index = min(len(df) - 1, st.session_state.row_index + 1)
+                    df.at[st.session_state.row_index, 'user decision'] = "match"
             with col3:
                 if st.button("Next Non-Match"):
-                    df.at[st.session_state.row_index, 'user decision'] = "non match"
                     st.session_state.row_index = min(len(df) - 1, st.session_state.row_index + 1)
+                    df.at[st.session_state.row_index, 'user decision'] = "non match"
 
             # Download updated CSV
             csv = df.to_csv(index=False)
