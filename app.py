@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import base64
+import random
 
 # Load CSV file
 def load_csv(uploaded_file):
@@ -10,6 +11,13 @@ def load_csv(uploaded_file):
     except Exception as e:
         st.error(f"Error loading CSV file: {e}")
         return None
+
+# Get a random row without a user decision
+def get_random_row(df):
+    available_rows = df[df['user decision'] == ""].index.tolist()
+    if not available_rows:
+        return None
+    return random.choice(available_rows)
 
 # Main app
 def main():
@@ -28,9 +36,11 @@ def main():
             if 'user decision' not in df.columns:
                 df['user decision'] = ""
 
-            # Session state for row index
+            # Session state for row index and history
             if 'row_index' not in st.session_state:
-                st.session_state.row_index = 0
+                st.session_state.row_index = get_random_row(df)
+            if 'history' not in st.session_state:
+                st.session_state.history = []
 
             # Display row
             row = df.iloc[st.session_state.row_index]
@@ -40,15 +50,18 @@ def main():
             col1, col2, col3 = st.columns(3)
             with col1:
                 if st.button("Back"):
-                    st.session_state.row_index = max(0, st.session_state.row_index - 1)
+                    if st.session_state.history:
+                        st.session_state.row_index = st.session_state.history.pop()
             with col2:
                 if st.button("Next Match"):
-                    st.session_state.row_index = min(len(df) - 1, st.session_state.row_index + 1)
                     df.at[st.session_state.row_index, 'user decision'] = "match"
+                    st.session_state.history.append(st.session_state.row_index)
+                    st.session_state.row_index = get_random_row(df)
             with col3:
                 if st.button("Next Non-Match"):
-                    st.session_state.row_index = min(len(df) - 1, st.session_state.row_index + 1)
                     df.at[st.session_state.row_index, 'user decision'] = "non match"
+                    st.session_state.history.append(st.session_state.row_index)
+                    st.session_state.row_index = get_random_row(df)
 
             # Download updated CSV
             csv = df.to_csv(index=False)
@@ -58,5 +71,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
+    
