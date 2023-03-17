@@ -52,7 +52,7 @@ def main():
             # Display row
             if st.session_state.row_index is not None:
                 row = df.loc[[st.session_state.row_index], ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.experimental_data_editor(row, disabled=True, num_rows="fixed")
+                df = st.experimental_data_editor(row, disabled=True, num_rows="fixed")
 
                 # Button logic
                 col1, col2, col3 = st.columns(3)
