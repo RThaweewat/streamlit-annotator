@@ -34,8 +34,6 @@ if uploaded_file is not None:
 else:
     df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
 
-df['User Decision'] = ""
-df['Row Number'] = range(len(df))
 
 edited_row = display_row()
 
