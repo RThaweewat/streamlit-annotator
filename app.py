@@ -50,9 +50,11 @@ def main():
                 # Button logic
                 col1, col2, col3 = st.columns(3)
                 with col1:
-                    if st.button("Back"):
-                        if st.session_state.history:
-                            st.session_state.row_index = st.session_state.history.pop()
+                    if st.button("Unknown"):
+                        if st.session_state.row_index is not None:
+                            df.at[st.session_state.row_index, 'user decision'] = "unknown"
+                            st.session_state.history.append(st.session_state.row_index)
+                            st.session_state.row_index = get_random_row(df)
                 with col2:
                     if st.button("Next Match"):
                         if st.session_state.row_index is not None:
