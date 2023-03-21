@@ -16,6 +16,7 @@ def load_csv(uploaded_file):
 # Get a random row without a user decision
 def get_random_row(df):
     available_rows = df[df['user decision'] == ""].index.tolist()
+    available_rows = [row for row in available_rows if row not in st.session_state.history]
     if not available_rows:
         return None
     return random.choice(available_rows)
@@ -49,7 +50,7 @@ def main():
                 st.write(row)
 
                 # Button logic
-                col1, col2, col3 = st.columns(3)
+                col1, col2, col3, col4 = st.columns(4)
                 with col1:
                     if st.button("Unknown"):
                         if st.session_state.row_index is not None:
@@ -68,6 +69,11 @@ def main():
                             df.at[st.session_state.row_index, 'user decision'] = "non match"
                             st.session_state.history.append(st.session_state.row_index)
                             st.session_state.row_index = get_random_row(df)
+                with col4:
+                    if st.button("Back"):
+                        if len(st.session_state.history) > 0:
+                            st.session_state.row_index = st.session_state.history.pop()
+                            df.at[st.session_state.row_index, 'user decision'] = ""
 
                 # Download updated CSV
                 csv = df.to_csv(index=False)
@@ -77,4 +83,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
     
