@@ -76,7 +76,11 @@ def main():
                         if len(st.session_state.history) > 0:
                             st.session_state.row_index = st.session_state.history.pop()
                             df.at[st.session_state.row_index, 'user decision'] = ""
-                            st.session_state.history.remove(st.session_state.row_index)
+                            try:
+                                st.session_state.history.remove(st.session_state.row_index)
+                            except ValueError:
+                                pass
+
 
 
                 # Download updated CSV
