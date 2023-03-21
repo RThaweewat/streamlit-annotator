@@ -38,11 +38,13 @@ def main():
             if 'user decision' not in df.columns:
                 df['user decision'] = ""
 
-            # Session state for row index and history
-            if 'row_index' not in st.session_state:
-                st.session_state.row_index = get_random_row(df)
+            # Initialize history key
             if 'history' not in st.session_state:
                 st.session_state.history = []
+
+            # Session state for row index
+            if 'row_index' not in st.session_state:
+                st.session_state.row_index = get_random_row(df)
 
             # Display row
             if st.session_state.row_index is not None:
