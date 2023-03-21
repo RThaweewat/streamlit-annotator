@@ -78,7 +78,6 @@ def main():
                             df.at[st.session_state.row_index, 'user decision'] = ""
                             st.session_state.history.remove(st.session_state.row_index)
 
-
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
