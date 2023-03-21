@@ -71,11 +71,13 @@ def main():
                             df.at[st.session_state.row_index, 'user decision'] = "non match"
                             st.session_state.history.append(st.session_state.row_index)
                             st.session_state.row_index = get_random_row(df)
-                with col4:
+                with col4
                     if st.button("Back"):
                         if len(st.session_state.history) > 0:
                             st.session_state.row_index = st.session_state.history.pop()
                             df.at[st.session_state.row_index, 'user decision'] = ""
+                            st.session_state.history.remove(st.session_state.row_index)
+
 
                 # Download updated CSV
                 csv = df.to_csv(index=False)
