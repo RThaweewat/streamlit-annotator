@@ -49,7 +49,7 @@ def main():
             # Display row
             if st.session_state.row_index is not None:
                 row = df.loc[st.session_state.row_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.dataframe(row)
+                st.dataframe(row, width=800)
 
                 # Button logic
                 col1, col2, col3, col4 = st.columns(4)
