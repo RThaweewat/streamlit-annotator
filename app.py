@@ -86,7 +86,7 @@ def main():
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
                     df.at[st.session_state.current_index, 'user decision'] = "match"
-                    st.session_state.current_index = get_next_row(df, st.session_state.current_index is not None:
+                    if st.session_state.current_index = get_next_row(df, st.session_state.current_index is not None:
                         row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                         row_placeholder.dataframe(row, width=1600)
                 else:
@@ -153,12 +153,12 @@ def main():
         st.write(f"Left rows: {left_rows}")
 
     # Download updated CSV
-            csv = df.to_csv(index=False)
-            b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-            href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
-            st.markdown(href, unsafe_allow_html=True)
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
-            st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
+    st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
 
 
 
