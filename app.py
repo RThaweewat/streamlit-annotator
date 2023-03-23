@@ -94,7 +94,7 @@ def main():
 
                     if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
                         st.session_state.history.append(st.session_state.current_index - 1)
-                elif:
+                else:
                     st.success("Thanks for annotating the data! All the data is ready to download.")
 
                 # Download updated CSV
