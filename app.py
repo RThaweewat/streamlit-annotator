@@ -68,14 +68,16 @@ def main():
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
                 with col4:
                     if st.button("Back"):
-                        if st.session_state.current_index != df.index[0]:
+                        if st.session_state.history:
+                            st.session_state.current_index = st.session_state.history.pop()
+                            df.at[st.session_state.current_index, 'user decision'] = ""
+                        elif st.session_state.current_index != df.index[0]:
                             st.session_state.current_index -= 1
                             df.at[st.session_state.current_index, 'user decision'] = ""
-                            try:
-                                st.session_state.history.remove(st.session_state.current_index)
-                            except ValueError:
-                                pass
-
+                            
+                if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
+                    st.session_state.history.append(st.session_state.current_index - 1)
+                
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
