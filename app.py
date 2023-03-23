@@ -89,8 +89,11 @@ def main():
                                 df.at[st.session_state.current_index, 'user decision'] = "non address"
                                 st.session_state.current_index = get_next_row(df, st.session_state.current_index)
 
-                    if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
-                        st.session_state.history.append(st.session_state.current_index - 1)
+                    if st.session_state.current_index is not None:
+                        if (st.session_state.current_index - 1) not in st.session_state.history:
+                            st.session_state.history.append(st.session_state.current_index - 1)
+                        elif left_rows == 1:
+                            df.at[st.session_state.current_index, 'user decision'] = df.at[st.session_state.history[-1], 'user decision']
                 else:
                     st.success("Thanks for annotating the data! All the data is ready to download.")
                     
