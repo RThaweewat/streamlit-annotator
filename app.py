@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import base64
-from streamlit.script_runner import RerunException
 
 
 st. set_page_config(layout="wide")
