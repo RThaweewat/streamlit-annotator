@@ -51,7 +51,7 @@ def main():
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 st.dataframe(row, width=1600)
                 left_rows = df[df['user decision'] == ""].shape[0]
-                if left_rows != 1:
+                if left_rows != 0:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
