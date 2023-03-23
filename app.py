@@ -29,7 +29,7 @@ def main():
         st.session_state.history = []
     if 'hide_buttons' not in st.session_state:
         st.session_state.hide_buttons = False
-    st.title("CSV Annotator V1.0")
+    st.title("CSV Annotator V1.1")
 
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
@@ -48,12 +48,6 @@ def main():
             if 'current_index' not in st.session_state:
                 st.session_state.current_index = df.index[0]
                 
-            # Display counters
-            annotated_rows = df[df['user decision'] != ""].shape[0]
-            left_rows = df[df['user decision'] == ""].shape[0]
-            st.write(f"Annotated rows: {annotated_rows}")
-            st.write(f"Left rows: {left_rows}")
-
             # Display row placeholder
             row_placeholder = st.empty()
 
@@ -139,15 +133,16 @@ def main():
             if st.session_state.current_index is not None:
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 row_placeholder.dataframe(row, width=1600)
+                
+            annotated_rows = df[df['user decision'] != ""].shape[0]
+            left_rows = df[df['user decision'] == ""].shape[0]
+            st.write(f"Annotated rows: {annotated_rows}")
+            st.write(f"Left rows: {left_rows}")
 
     if st.session_state.hide_buttons:
         st.warning("Thanks, all rows are filled.")
     
-    annotated_rows = df[df['user decision'] != ""].shape[0]
-    left_rows = df[df['user decision'] == ""].shape[0]
-    st.write(f"Annotated rows: {annotated_rows}")
-    st.write(f"Left rows: {left_rows}")
-
+    
     # Download updated CSV
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
