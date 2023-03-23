@@ -99,7 +99,8 @@ def main():
                 left_rowss = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rowss}")
                 st.write(f"Left rows: {left_rowss}")
-                
+    else:
+        st.success("Thanks for annotating the data! All the data is ready to download.")
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
