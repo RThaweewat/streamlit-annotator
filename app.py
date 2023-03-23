@@ -51,10 +51,8 @@ def main():
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 st.dataframe(row, width=1600)
                 # Display counters
-                annotated_rows = df[df['user decision'] != ""].shape[0]
                 left_rows = df[df['user decision'] == ""].shape[0]
-                st.write(f"Annotated rows: {annotated_rows}")
-                st.write(f"Left rows: {left_rows}")
+                
                 if left_rows != 1:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
@@ -96,6 +94,10 @@ def main():
                 else:
                     st.success("Thanks for annotating the data! All the data is ready to download.")
                     
+                annotated_rowss = df[df['user decision'] != ""].shape[0]
+                left_rowss = df[df['user decision'] == ""].shape[0]
+                st.write(f"Annotated rows: {annotated_rowss}")
+                st.write(f"Left rows: {left_rowss}")
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
