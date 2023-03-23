@@ -45,11 +45,6 @@ def main():
             # Initialize current index
             if 'current_index' not in st.session_state:
                 st.session_state.current_index = df.index[0]
-
-            # Display row
-            if st.session_state.current_index is not None:
-                row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.dataframe(row, width=1600)
                 
                 # Display counters
                 annotated_rows = df[df['user decision'] != ""].shape[0]
@@ -69,6 +64,8 @@ def main():
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
                             row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                             row_placeholder.dataframe(row, width=1600)
+                        else:
+                            st.warning("No more rows available.")
                 with col3:
                     if st.button("Next Match"):
                         if st.session_state.current_index is not None:
@@ -77,6 +74,8 @@ def main():
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
                             row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                             row_placeholder.dataframe(row, width=1600)
+                        else:
+                            st.warning("No more rows available.")
                 with col4:
                     if st.button("Next Non-Match"):
                         if st.session_state.current_index is not None:
@@ -85,6 +84,8 @@ def main():
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
                             row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                             row_placeholder.dataframe(row, width=1600)
+                        else:
+                            st.warning("No more rows available.")
                 with col5:
                     if st.button("Back"):
                         if st.session_state.history:
@@ -97,6 +98,8 @@ def main():
                             df.at[st.session_state.current_index, 'user decision'] = ""
                             row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                             row_placeholder.dataframe(row, width=1600)
+                        else:
+                            st.warning("No more rows available.")
                 with col2:
                     if st.button("Not Address"):
                         if st.session_state.current_index is not None:
@@ -105,13 +108,19 @@ def main():
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
                             row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                             row_placeholder.dataframe(row, width=1600)
+                        else:
+                            st.warning("No more rows available.")
                             
                 if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
                     st.session_state.history.append(st.session_state.current_index - 1)
+                    
                 # Display row initially
                 if st.session_state.current_index is not None:
                     row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                     row_placeholder.dataframe(row, width=1600)
+                else:
+                    st.warning("No more rows available.")
+                    
                 annotated_rowss = df[df['user decision'] != ""].shape[0]
                 left_rowss = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rowss}")
