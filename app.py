@@ -54,7 +54,7 @@ def main():
                 left_rowss = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rowss}")
                 st.write(f"Left rows: {left_rowss}")
-                if left_rows > 0:
+                if left_rowss > 0:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
