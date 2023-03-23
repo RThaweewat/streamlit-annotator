@@ -50,13 +50,12 @@ def main():
             if st.session_state.current_index is not None:
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 st.dataframe(row, width=1600)
-                
                 # Display counters
                 annotated_rows = df[df['user decision'] != ""].shape[0]
                 left_rows = df[df['user decision'] == ""].shape[0]
-                st.write(f"Annotated rows: {annotated_rows}")
-                st.write(f"Left rows: {left_rows}")
-                if left_rows > 0:
+                st.write(f"Annotated rows: {annotated_rows+1}")
+                st.write(f"Left rows: {left_rows-1}")
+                if left_rows = 1:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
