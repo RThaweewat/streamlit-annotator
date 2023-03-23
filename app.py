@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import base64
+from streamlit.script_runner import RerunException
+
 
 st. set_page_config(layout="wide")
 
@@ -60,18 +62,21 @@ def main():
                             st.session_state.history.append(st.session_state.current_index)
                             df.at[st.session_state.current_index, 'user decision'] = "unknown"
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                            raise RerunException
                 with col3:
                     if st.button("Next Match"):
                         if st.session_state.current_index is not None:
                             st.session_state.history.append(st.session_state.current_index)
                             df.at[st.session_state.current_index, 'user decision'] = "match"
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                            raise RerunException
                 with col4:
                     if st.button("Next Non-Match"):
                         if st.session_state.current_index is not None:
                             st.session_state.history.append(st.session_state.current_index)
                             df.at[st.session_state.current_index, 'user decision'] = "non match"
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                            raise RerunException
                 with col5:
                     if st.button("Back"):
                         if st.session_state.history:
@@ -80,13 +85,14 @@ def main():
                         elif st.session_state.current_index != df.index[0]:
                             st.session_state.current_index -= 1
                             df.at[st.session_state.current_index, 'user decision'] = ""
+                            raise RerunException
                 with col2:
                     if st.button("Not Address"):
                         if st.session_state.current_index is not None:
                             st.session_state.history.append(st.session_state.current_index)
                             df.at[st.session_state.current_index, 'user decision'] = "non address"
                             st.session_state.current_index = get_next_row(df, st.session_state.current_index)
-                    
+                            raise RerunException
                 annotated_rowss = df[df['user decision'] != ""].shape[0]
                 left_rowss = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rowss}")
