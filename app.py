@@ -119,10 +119,15 @@ def main():
                 st.session_state.current_index = df[df['user decision'] == ""].index[0]
 
             if st.session_state.current_index is not None:
-                row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                row_placeholder.dataframe(row, width=1600)
+                try:
+                    row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
+                    row_placeholder.dataframe(row, width=1600)
+                except KeyError:
+                    st.session_state.current_index = None
+                    row_placeholder.warning("No more rows available.")
             else:
                 row_placeholder.warning("No more rows available.")
+
 
 
 
