@@ -23,6 +23,8 @@ def get_next_row(df, current_index):
 
 # Main app
 def main():
+    if 'history' not in st.session_state:
+    st.session_state.history = []
     st.title("CSV Annotator V1.0")
 
     # Upload CSV
