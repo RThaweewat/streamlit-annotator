@@ -96,7 +96,7 @@ def main():
                         st.session_state.history.append(st.session_state.current_index - 1)
                 else:
                     st.success("Thanks for annotating the data! All the data is ready to download.")
-    else:  st.success("Thanks for annotating the data! All the data is ready to download.")
+
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
@@ -104,7 +104,9 @@ def main():
                 st.markdown(href, unsafe_allow_html=True)
                 st.dataframe(df, width=1600)
         
-                    
+    else:
+        st.success("Thanks for annotating the data! All the data is ready to download.")
+        
 if __name__ == "__main__":
     main()
 
