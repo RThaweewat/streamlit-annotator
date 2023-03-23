@@ -8,7 +8,8 @@ st. set_page_config(layout="wide")
 def load_csv(uploaded_file):
     try:
         df = pd.read_csv(uploaded_file)
-        df = df[df['HOUSE_FULL_1', 'HOUSE_FULL_2'].notna()]
+        df = df[df['HOUSE_FULL_1'].notna()]
+        df = df[df['HOUSE_FULL_2'].notna()]
         return df
     except Exception as e:
         st.error(f"Error loading CSV file: {e}")
