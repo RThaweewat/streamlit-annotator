@@ -53,7 +53,7 @@ def main():
                 # Display counters
                 left_rows = df[df['user decision'] == ""].shape[0]
                 
-                if left_rows != 0:
+                if left_rows != 1:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
