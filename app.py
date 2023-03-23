@@ -140,29 +140,21 @@ def main():
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 row_placeholder.dataframe(row, width=1600)
 
-                user_decision = st.selectbox("Choose the correct option", ("", "HOUSE_FULL_1", "HOUSE_FULL_2"))
-
-                if user_decision:
-                    df.loc[st.session_state.current_index, 'user decision'] = user_decision
-                    st.session_state.current_index = None
-
-                    st.success("Decision saved. Loading next row...")
-
     if st.session_state.hide_buttons:
         st.warning("Thanks, all rows are filled.")
     
-        annotated_rows = df[df['user decision'] != ""].shape[0]
-        left_rows = df[df['user decision'] == ""].shape[0]
-        st.write(f"Annotated rows: {annotated_rows}")
-        st.write(f"Left rows: {left_rows}")
+    annotated_rows = df[df['user decision'] != ""].shape[0]
+    left_rows = df[df['user decision'] == ""].shape[0]
+    st.write(f"Annotated rows: {annotated_rows}")
+    st.write(f"Left rows: {left_rows}")
 
-        # Download updated CSV
-        csv = df.to_csv(index=False)
-        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-        href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
-        st.markdown(href, unsafe_allow_html=True)
+    # Download updated CSV
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
-        st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
+    st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
 
 
 
