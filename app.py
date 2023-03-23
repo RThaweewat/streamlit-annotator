@@ -31,6 +31,7 @@ def main():
 
     # Upload CSV
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+
     if uploaded_file is not None:
         if 'data' not in st.session_state:
             st.session_state.data = load_csv(uploaded_file)
@@ -52,7 +53,7 @@ def main():
                 st.dataframe(row, width=1600)
                 left_rows = df[df['user decision'] == ""].shape[0]
                 st.write(f"Left rows: {left_rows}")
-                if left_rows != 0:
+                if left_rows != 1:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
@@ -97,6 +98,7 @@ def main():
                 left_rowss = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rowss}")
                 st.write(f"Left rows: {left_rowss}")
+                
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
