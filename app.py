@@ -53,9 +53,9 @@ def main():
                 # Display counters
                 annotated_rows = df[df['user decision'] != ""].shape[0]
                 left_rows = df[df['user decision'] == ""].shape[0]
-                st.write(f"Annotated rows: {annotated_rows+1}")
-                st.write(f"Left rows: {left_rows-1}")
-                if left_rows == 1:
+                st.write(f"Annotated rows: {annotated_rows}")
+                st.write(f"Left rows: {left_rows}")
+                if left_rows == 0:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
@@ -101,7 +101,7 @@ def main():
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
                 href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
                 st.markdown(href, unsafe_allow_html=True)
-                st.dataframe(df, width=1600)
+                st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
  
         
 if __name__ == "__main__":
