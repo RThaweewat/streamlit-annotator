@@ -55,6 +55,7 @@ def main():
                 left_rows = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rows}")
                 st.write(f"Left rows: {left_rows}")
+                
                 if left_rows == 0:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
@@ -93,7 +94,7 @@ def main():
 
                     if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
                         st.session_state.history.append(st.session_state.current_index - 1)
-                else:
+                elif:
                     st.success("Thanks for annotating the data! All the data is ready to download.")
 
                 # Download updated CSV
