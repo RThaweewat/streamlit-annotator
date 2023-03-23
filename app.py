@@ -122,11 +122,21 @@ def main():
                 try:
                     row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                     row_placeholder.dataframe(row, width=1600)
+
+                    user_decision = st.selectbox("Choose the correct option", ("", "HOUSE_FULL_1", "HOUSE_FULL_2"))
+
+                    if user_decision:
+                        df.loc[st.session_state.current_index, 'user decision'] = user_decision
+                        st.session_state.current_index = None
+                        st.success("Decision saved. Loading next row...")
                 except KeyError:
                     st.session_state.current_index = None
-                    row_placeholder.warning("No more rows available.")
+                    row_placeholder.empty()
+                    st.info("Thanks, all rows are filled.")
             else:
-                row_placeholder.warning("No more rows available.")
+                row_placeholder.empty()
+                st.info("Thanks, all rows are filled.")
+
 
 
 
