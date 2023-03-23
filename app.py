@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import base64
 
-# st. set_page_config(layout="wide")
+st. set_page_config(layout="wide")
 
 # Load CSV file
 def load_csv(uploaded_file):
@@ -49,7 +49,7 @@ def main():
             # Display row
             if st.session_state.current_index is not None:
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.dataframe(row, width=1200)
+                st.dataframe(row, width=1600)
                 
                 # Display counters
                 annotated_rows = df[df['user decision'] != ""].shape[0]
@@ -101,7 +101,7 @@ def main():
                 href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
                 st.markdown(href, unsafe_allow_html=True)
                 
-                st.dataframe(df, width=1200)
+                st.dataframe(df, width=1600)
 
 if __name__ == "__main__":
     main()
