@@ -50,11 +50,8 @@ def main():
             if st.session_state.current_index is not None:
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 st.dataframe(row, width=1600)
-                annotated_rowss = df[df['user decision'] != ""].shape[0]
-                left_rowss = df[df['user decision'] == ""].shape[0]
-                st.write(f"Annotated rows: {annotated_rowss}")
-                st.write(f"Left rows: {left_rowss}")
-                if left_rowss > 0:
+                left_rows = df[df['user decision'] == ""].shape[0]
+                if left_rowss != 1:
                     # Button logic
                     col1, col2, col3, col4, col5 = st.columns(5)
                     with col1:
@@ -106,8 +103,6 @@ def main():
                 st.markdown(href, unsafe_allow_html=True)
                 st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
  
-    else:
-        st.success("Thanks for annotating the data! All the data is ready to download.")
                 
         
 if __name__ == "__main__":
