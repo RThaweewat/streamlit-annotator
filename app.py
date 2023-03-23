@@ -100,17 +100,15 @@ def main():
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
                 href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
                 st.markdown(href, unsafe_allow_html=True)
-                
+       
                 st.dataframe(df, width=1600)
-                # Check if all rows are annotated and show a balloon if true
-                
+        
+                # Check if all rows are annotated
                 if left_rows == 0:
-                    st.balloons()
-                    csv = df.to_csv(index=False)
-                    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-                    href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
-                    st.markdown(href, unsafe_allow_html=True)
-                    st.dataframe(df, width=1600)
+                    # Thank you message
+                    st.success("Thanks for annotating the data! All the data is ready to download.")
+                    # Hide other elements except the download button and dataframe
+                    st.experimental_rerun()
                     
 if __name__ == "__main__":
     main()
