@@ -103,12 +103,12 @@ def main():
        
                 st.dataframe(df, width=1600)
         
-                # Check if all rows are annotated
-                if left_rows == 0:
-                    # Thank you message
-                    st.success("Thanks for annotating the data! All the data is ready to download.")
-                    # Hide other elements except the download button and dataframe
-                    st.experimental_rerun()
+        # Check if all rows are annotated
+        if left_rows == 0:
+            # Thank you message
+            st.success("Thanks for annotating the data! All the data is ready to download.")
+            # Hide other elements except the download button and dataframe
+            st.experimental_rerun()
                     
 if __name__ == "__main__":
     main()
