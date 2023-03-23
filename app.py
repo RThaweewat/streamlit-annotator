@@ -52,7 +52,7 @@ def main():
             if st.session_state.current_index is not None:
                 unique_key = f"row_{st.session_state.current_index}"
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
-                st.dataframe(row, key=unique_key, width=1600)
+                st.table(row.to_frame().T, key=unique_key)
 
             # Button logic
             col1, col2, col3, col4, col5 = st.columns(5)
