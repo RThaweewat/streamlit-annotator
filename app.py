@@ -99,8 +99,6 @@ def main():
                 left_rowss = df[df['user decision'] == ""].shape[0]
                 st.write(f"Annotated rows: {annotated_rowss}")
                 st.write(f"Left rows: {left_rowss}")
-    else:
-        st.success("Thanks for annotating the data! All the data is ready to download.")
                 # Download updated CSV
                 csv = df.to_csv(index=False)
                 b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
@@ -108,6 +106,9 @@ def main():
                 st.markdown(href, unsafe_allow_html=True)
                 st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
  
+    else:
+        st.success("Thanks for annotating the data! All the data is ready to download.")
+                
         
 if __name__ == "__main__":
     main()
