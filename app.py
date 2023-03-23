@@ -92,6 +92,7 @@ def main():
                         row_placeholder.dataframe(row, width=1600)
                 else:
                     st.session_state.hide_buttons = True
+                    
             elif non_match_button:
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
@@ -102,6 +103,7 @@ def main():
                     row_placeholder.dataframe(row, width=1600)
                 else:
                     st.session_state.hide_buttons = True
+                    
             elif not_address_button:
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
@@ -112,6 +114,7 @@ def main():
                     row_placeholder.dataframe(row, width=1600)
                 else:
                     st.session_state.hide_buttons = True
+                    
             elif back_button:
                 if st.session_state.history:
                     st.session_state.current_index = st.session_state.history.pop()
@@ -126,7 +129,7 @@ def main():
                 else:
                     row_placeholder.warning("No more rows available.")
                     
-                        if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
+            if st.session_state.current_index is not None and (st.session_state.current_index - 1) not in st.session_state.history:
                 st.session_state.history.append(st.session_state.current_index - 1)
 
             # Display row initially
