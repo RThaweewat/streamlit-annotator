@@ -150,11 +150,11 @@ def main():
 
     if st.session_state.hide_buttons:
         st.warning("Thanks, all rows are filled.")
-    else:
-        annotated_rows = df[df['user decision'] != ""].shape[0]
-        left_rows = df[df['user decision'] == ""].shape[0]
-        st.write(f"Annotated rows: {annotated_rows}")
-        st.write(f"Left rows: {left_rows}")
+    
+    annotated_rows = df[df['user decision'] != ""].shape[0]
+    left_rows = df[df['user decision'] == ""].shape[0]
+    st.write(f"Annotated rows: {annotated_rows}")
+    st.write(f"Left rows: {left_rows}")
 
     # Download updated CSV
     csv = df.to_csv(index=False)
