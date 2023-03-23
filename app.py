@@ -118,8 +118,13 @@ def main():
             if st.session_state.current_index is not None:
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 row_placeholder.dataframe(row, width=1600)
+            elif not df[df['user decision'] == ""].empty:
+                st.session_state.current_index = df[df['user decision'] == ""].index[0]
+                row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
+                row_placeholder.dataframe(row, width=1600)
             else:
                 row_placeholder.warning("No more rows available.")
+
 
 
             annotated_rowss = df[df['user decision'] != ""].shape[0]
