@@ -8,6 +8,7 @@ st. set_page_config(layout="wide")
 def load_csv(uploaded_file):
     try:
         df = pd.read_csv(uploaded_file)
+        df = df[df['HOUSE_FULL_1', 'HOUSE_FULL_2'].notna()]
         return df
     except Exception as e:
         st.error(f"Error loading CSV file: {e}")
@@ -48,7 +49,13 @@ def main():
             if st.session_state.current_index is not None:
                 row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                 st.dataframe(row, width=1200)
-
+                
+                # Display counters
+                annotated_rows = df[df['user decision'] != ""].shape[0]
+                left_rows = df[df['user decision'] == ""].shape[0]
+                st.write(f"Annotated rows: {annotated_rows}")
+                st.write(f"Left rows: {left_rows}")
+                
                 # Button logic
                 col1, col2, col3, col4, col5 = st.columns(5)
                 with col1:
