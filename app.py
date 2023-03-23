@@ -103,9 +103,7 @@ def main():
                 href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
                 st.markdown(href, unsafe_allow_html=True)
                 st.dataframe(df, width=1600)
-        
-    else:
-        st.success("Thanks for annotating the data! All the data is ready to download.")
+ 
         
 if __name__ == "__main__":
     main()
