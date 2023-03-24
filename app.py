@@ -16,12 +16,12 @@ def load_csv(uploaded_file):
         return None
 
 # Get the next row without a user decision
-def get_next_row(df, current_index):
+def get_next_row(df):
     available_rows = df[df['user decision'] == ""].index.tolist()
-    available_rows = [row for row in available_rows if row > current_index]
     if not available_rows:
         return None
     return min(available_rows)
+
 
 # Main app
 def main():
@@ -46,7 +46,7 @@ def main():
 
             # Initialize current index
             if 'current_index' not in st.session_state:
-                st.session_state.current_index = df.index[0]
+                st.session_state.current_index = get_next_row(df)
                 
             # Display row placeholder
             row_placeholder = st.empty()
