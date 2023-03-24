@@ -10,6 +10,7 @@ def load_csv(uploaded_file):
         df = pd.read_csv(uploaded_file)
         df = df[df['HOUSE_FULL_1'].notna()]
         df = df[df['HOUSE_FULL_2'].notna()]
+        df['user decision'] = df['user decision'].fillna("")
         return df
     except Exception as e:
         st.error(f"Error loading CSV file: {e}")
