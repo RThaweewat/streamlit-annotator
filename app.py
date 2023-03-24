@@ -139,18 +139,18 @@ def main():
             st.write(f"Annotated rows: {annotated_rows}")
             st.write(f"Left rows: {left_rows}")
 
-    if st.session_state.hide_buttons:
-        st.warning("Thanks, all rows are filled.")
-   
-        st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
-            
-        # Download updated CSV
-        csv = df.to_csv(index=False)
-        b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-        href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
-        st.markdown(href, unsafe_allow_html=True)
-    else:
-        st.warning("Unable to load the CSV file. Please make sure it is in the correct format.")
+            if st.session_state.hide_buttons:
+                st.warning("Thanks, all rows are filled.")
+
+                st.dataframe(df[['HOUSE_FULL_1', 'HOUSE_FULL_2', 'user decision']], width=1600)
+
+                # Download updated CSV
+                csv = df.to_csv(index=False)
+                b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
+                href = f'<a href="data:file/csv;base64,{b64}" download="updated.csv">Download Updated CSV</a>'
+                st.markdown(href, unsafe_allow_html=True)
+        else:
+            st.warning("Unable to load the CSV file. Please make sure it is in the correct format.")
     else:
         st.warning("Please upload a CSV file to get started.")
 
