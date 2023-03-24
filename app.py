@@ -64,6 +64,13 @@ def main():
                     non_match_button = st.button("Next Non-Match")
                 with col5:
                     back_button = st.button("Back")
+            else:
+                unknown_button = False
+                not_address_button = False
+                match_button = False
+                non_match_button = False
+                back_button = False
+
 
             if unknown_button:
                 if st.session_state.current_index is not None:
