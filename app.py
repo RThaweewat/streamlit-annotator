@@ -76,7 +76,7 @@ def main():
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
                     df.at[st.session_state.current_index, 'user decision'] = "unknown"
-                    st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                    st.session_state.current_index = get_next_row(df)
                     if st.session_state.current_index is not None:
                         row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                         row_placeholder.dataframe(row, width=1600)
@@ -87,7 +87,7 @@ def main():
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
                     df.at[st.session_state.current_index, 'user decision'] = "match"
-                    st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                    st.session_state.current_index = get_next_row(df)
                     if st.session_state.current_index is not None:
                         row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                         row_placeholder.dataframe(row, width=1600)
@@ -98,7 +98,7 @@ def main():
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
                     df.at[st.session_state.current_index, 'user decision'] = "non match"
-                    st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                    st.session_state.current_index = get_next_row(df)
                 if st.session_state.current_index is not None:
                     row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                     row_placeholder.dataframe(row, width=1600)
@@ -109,7 +109,7 @@ def main():
                 if st.session_state.current_index is not None:
                     st.session_state.history.append(st.session_state.current_index)
                     df.at[st.session_state.current_index, 'user decision'] = "non address"
-                    st.session_state.current_index = get_next_row(df, st.session_state.current_index)
+                    st.session_state.current_index = get_next_row(df)
                 if st.session_state.current_index is not None:
                     row = df.loc[st.session_state.current_index, ['HOUSE_FULL_1', 'HOUSE_FULL_2']]
                     row_placeholder.dataframe(row, width=1600)
